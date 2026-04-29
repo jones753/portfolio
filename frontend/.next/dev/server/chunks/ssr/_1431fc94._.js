@@ -54,13 +54,12 @@ const profile = {
     headline: 'Bachelor of Engineer in Information Technology',
     summary: 'Bachelor of Engineer in Information Technology with strong knowledge and interest in embedded systems and software development. Skilled in both hardware-level and software-level problem solving, with practical knowledge of tools and languages for both Frontend and Backend. Skilled in using AI-assisted development tools to improve coding efficiency and code quality.',
     email: 'joona.kaik@outlook.com',
-    githubUsername: 'joonakaikkonen',
-    linkedinUrl: 'https://www.linkedin.com/in/joonakaikkonen/',
-    youtubeUrl: 'https://www.youtube.com/@joonakaikkonen',
+    githubUsername: 'jones752',
+    linkedinUrl: 'https://www.linkedin.com/in/joona-kaikkonen-8348b6250/',
+    youtubeUrl: 'https://www.youtube.com/@jone4671',
     feedbackQuotes: [
         {
             quote: 'Suosittelemme lämpimästi Joona Kaikkosta työtehtäviin ohjelmistokehityksen parissa. Yhteistyömme aikana hän osoittautui erittäin luotettavaksi ja joustavaksi ammattilaiseksi, jonka kanssa työskentely sujui mutkattomasti. Kaikki sovitut asiat toteutuivat ajallaan ja sovitulla tavalla, ja Joona piti aktiivisesti huolta työn laadusta sekä projektin etenemisestä. Teknisesti Joona hyödynsi laajasti full stack -osaamistaan sekä koneoppimisen (ML) menetelmiä palvelumme kehittämisessä. Hänen panoksensa oli merkittävä erityisesti ratkaisujen toteutuksessa ja kehitystyön sujuvuudessa.',
-            author: 'Ilari Piipponen, CEO',
             context: 'Velocitra Oy — velocitra.com'
         },
         {
