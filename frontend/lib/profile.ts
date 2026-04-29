@@ -46,7 +46,7 @@ export const profile: Profile = {
   summary:
     'Bachelor of Engineer in Information Technology with strong knowledge and interest in embedded systems and software development. Skilled in both hardware-level and software-level problem solving, with practical knowledge of tools and languages for both Frontend and Backend. Skilled in using AI-assisted development tools to improve coding efficiency and code quality.',
   email: 'joona.kaik@outlook.com',
-  githubUsername: 'jones752',
+  githubUsername: 'jones753',
   linkedinUrl: 'https://www.linkedin.com/in/joona-kaikkonen-8348b6250/',
   youtubeUrl: 'https://www.youtube.com/@jone4671',
   feedbackQuotes: [
