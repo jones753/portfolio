@@ -12,6 +12,9 @@ ENV NODE_ENV=production
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY index.js package.json ./
+COPY routes ./routes
+COPY controllers ./controllers
+COPY services ./services
 
 EXPOSE 4000
 CMD ["node", "index.js"]
