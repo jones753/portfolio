@@ -8,7 +8,8 @@ import spotifyRouter from "./routes/spotifyRoutes.js"
 dotenv.config()
 
 const app = express()
-const port = Number(process.env.BACKEND_PORT || 4000)
+const port = Number(process.env.PORT || process.env.BACKEND_PORT || 4000)
+const host = process.env.HOST || "0.0.0.0"
 
 const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3000")
   .split(",")
@@ -31,6 +32,6 @@ app.use(healthRouter)
 app.use("/api", githubRouter)
 app.use("/api", spotifyRouter)
 
-app.listen(port, () => {
-  console.log(`Backend listening on port ${port}`)
+app.listen(port, host, () => {
+  console.log(`Backend listening on http://${host}:${port}`)
 })
