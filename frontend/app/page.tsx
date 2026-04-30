@@ -49,11 +49,6 @@ export default function Home() {
     error?: string
     message?: string
   } | null>(null)
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  })
   const [showScrollTop, setShowScrollTop] = useState(false)
 
   useEffect(() => {
@@ -204,18 +199,6 @@ export default function Home() {
     return { opacity, transform: `translateY(${translateY}px)` }
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
-  }
-  
   const heroContentOpacity = Math.max(0, 1 - (scrollProgress * 2))
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
@@ -765,27 +748,36 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              {latestBlogPosts.map((post) => (
-                <article key={post.slug} className="p-6 bg-gray-50 rounded-2xl space-y-4">
-                  <p className="text-sm text-gray-500">
-                    {new Date(post.publishedAt).toLocaleDateString()}
-                  </p>
-                  <h3 className="text-xl md:text-2xl font-bold text-black">{post.title}</h3>
-                  <p className="text-base text-gray-600 leading-relaxed">{post.excerpt}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={`${post.slug}-${tag}`}
-                        className="px-3 py-1 rounded-full bg-white text-gray-700 text-sm"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
+            {latestBlogPosts.length === 0 ? (
+              <div className="p-8 bg-gray-50 rounded-2xl space-y-3">
+                <p className="text-sm uppercase tracking-wider text-gray-500">Coming soon</p>
+                <p className="text-lg text-gray-700 leading-relaxed max-w-2xl">
+                  New posts are on the way.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                {latestBlogPosts.map((post) => (
+                  <article key={post.slug} className="p-6 bg-gray-50 rounded-2xl space-y-4">
+                    <p className="text-sm text-gray-500">
+                      {new Date(post.publishedAt).toLocaleDateString()}
+                    </p>
+                    <h3 className="text-xl md:text-2xl font-bold text-black">{post.title}</h3>
+                    <p className="text-base text-gray-600 leading-relaxed">{post.excerpt}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {post.tags.map((tag) => (
+                        <span
+                          key={`${post.slug}-${tag}`}
+                          className="px-3 py-1 rounded-full bg-white text-gray-700 text-sm"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -823,116 +815,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contact" className="min-h-screen bg-black text-white px-6 md:px-12 lg:px-20 py-20">
+      <footer id="contact" className="bg-black text-white px-6 md:px-12 lg:px-20 py-10 md:py-14">
         <div className="max-w-5xl mx-auto">
-          <h2 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8 md:mb-12"
-            style={{
-              opacity: Math.min(1, Math.max(0, (scrollY - 3200) / 400)),
-              transform: `translateY(${Math.max(0, 40 - (scrollY - 3200) / 12)}px)`
-            }}
-          >
-            Get in touch
-          </h2>
-
-          <p 
-            className="text-lg md:text-xl text-gray-400 mb-12 md:mb-16 max-w-2xl"
-            style={{
-              opacity: Math.min(1, Math.max(0, (scrollY - 3300) / 300)),
-              transform: `translateY(${Math.max(0, 30 - (scrollY - 3300) / 10)}px)`
-            }}
-          >
-            Have a project in mind? Let's collaborate!
-          </p>
-
-          <form 
-            onSubmit={handleSubmit}
-            className="space-y-8"
-            style={{
-              opacity: Math.min(1, Math.max(0, (scrollY - 3400) / 300)),
-              transform: `translateY(${Math.max(0, 40 - (scrollY - 3400) / 10)}px)`
-            }}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-3 group">
-                <label htmlFor="name" className="block text-sm uppercase tracking-wider text-gray-400 group-focus-within:text-white transition-colors">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full bg-transparent border-b-2 border-gray-700 focus:border-white py-3 text-lg md:text-xl outline-none transition-all duration-300"
-                  placeholder="Your name"
-                />
-              </div>
-
-              <div className="space-y-3 group">
-                <label htmlFor="email" className="block text-sm uppercase tracking-wider text-gray-400 group-focus-within:text-white transition-colors">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full bg-transparent border-b-2 border-gray-700 focus:border-white py-3 text-lg md:text-xl outline-none transition-all duration-300"
-                  placeholder="your@email.com"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-3 group">
-              <label htmlFor="message" className="block text-sm uppercase tracking-wider text-gray-400 group-focus-within:text-white transition-colors">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                required
-                rows={6}
-                className="w-full bg-transparent border-b-2 border-gray-700 focus:border-white py-3 text-lg md:text-xl outline-none resize-none transition-all duration-300"
-                placeholder="Tell me about your project..."
-              />
-            </div>
-
-            <div className="pt-8">
-              <button
-                type="submit"
-                className="group relative inline-flex items-center gap-4 text-xl md:text-2xl font-bold bg-white text-black px-10 py-5 rounded-xl hover:bg-gray-200 transition-all duration-300 overflow-hidden"
-              >
-                <span className="relative z-10 group-hover:text-black transition-colors duration-300">Send Message</span>
-                <svg 
-                  width="24" 
-                  height="24" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                  className="relative z-10 transition-transform duration-300 group-hover:translate-x-2 group-hover:stroke-black"
-                >
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </button>
-            </div>
-          </form>
-
-          <div 
-            className="mt-16 md:mt-20 pt-12 border-t border-gray-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
-            style={{
-              opacity: Math.min(1, Math.max(0, (scrollY - 3600) / 300)),
-            }}
-          >
+          <div className="w-full py-8 md:py-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
             <div className="space-y-2">
               <p className="text-gray-400 text-sm uppercase tracking-wider">Direct Contact</p>
               <Link 
@@ -977,7 +862,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </footer>
     </main>
   )
 }
