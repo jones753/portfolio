@@ -48,7 +48,6 @@ export const profile: Profile = {
   email: 'joona.kaik@outlook.com',
   githubUsername: 'jones753',
   linkedinUrl: 'https://www.linkedin.com/in/joona-kaikkonen-8348b6250/',
-  youtubeUrl: 'https://www.youtube.com/@jone4671',
   feedbackQuotes: [
     {
       quote:
