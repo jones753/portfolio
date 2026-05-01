@@ -1,0 +1,33 @@
+---
+description: Core conventions for this Next.js + Express portfolio repo
+alwaysApply: true
+---
+
+# Web Portfolio Project Conventions
+
+## Architecture and scope
+- This repo has two apps: `frontend` (Next.js App Router + TypeScript + Prisma) and `backend` (Express ESM JavaScript proxy APIs).
+- Keep frontend business/data access in `frontend/lib`, route handlers in `frontend/app/api`, and UI in `frontend/components`.
+- Keep backend pattern as `routes -> controllers -> services`; avoid mixing remote API logic directly into routes.
+
+## Frontend coding style
+- Use TypeScript with strict typing; avoid `any` and keep exported types explicit for payloads/shared models.
+- Keep existing style conventions: single quotes, no semicolons, and `@/` imports for app-local modules.
+- For client components, include `'use client'` only when React hooks/browser APIs are required.
+- For server actions, include `'use server'` and keep them focused on auth/data mutations.
+
+## Data, auth, and APIs
+- Validate request payloads with `zod` in API routes and return clear JSON errors with appropriate status codes.
+- Reuse `auth()` from `@/auth` for dashboard-protected routes/pages and keep unauthorized responses consistent.
+- Use `prisma` from `@/lib/prisma`; do not instantiate additional Prisma clients.
+- When mapping DB records to UI/API models, use dedicated mapper utilities (for example the blog mapping pattern).
+
+## Backend API conventions
+- Follow existing backend quote style (`"` strings) and no semicolons.
+- Keep controllers defensive: validate query params, handle upstream failures, and return stable JSON shapes.
+- Place external API normalization/query parsing in `services`, not in route files.
+
+## Safety and workflow
+- Never commit secrets or `.env` files; use environment variables only.
+- Do not modify generated/vendor-like UI primitives under `frontend/components/ui` unless explicitly requested.
+- Prefer minimal, targeted edits that match existing patterns instead of broad refactors.
