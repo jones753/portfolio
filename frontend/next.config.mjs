@@ -10,8 +10,16 @@ const nextConfig = {
     const backendUrl = process.env.BACKEND_INTERNAL_URL || "http://localhost:4000"
     return [
       {
-        source: "/api/:path*",
-        destination: `${backendUrl}/api/:path*`,
+        source: "/api/github/:path*",
+        destination: `${backendUrl}/api/github/:path*`,
+      },
+      {
+        source: "/api/spotify/:path*",
+        destination: `${backendUrl}/api/spotify/:path*`,
+      },
+      {
+        source: "/api/now-playing",
+        destination: `${backendUrl}/api/spotify/now-playing`,
       },
     ]
   },

@@ -3,14 +3,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { blogPosts } from '@/lib/blog'
+import type { BlogPost } from '@/lib/blog'
 import { profile } from '@/lib/profile'
 
 export default function Home() {
-  const latestBlogPosts = blogPosts.slice(0, 3)
   const [scrollY, setScrollY] = useState(0)
   const [hackText, setHackText] = useState(profile.name)
   const [isHacking, setIsHacking] = useState(false)
+  const [latestBlogPosts, setLatestBlogPosts] = useState<BlogPost[]>([])
+  const [blogStatus, setBlogStatus] = useState<'idle' | 'loading' | 'error' | 'ready'>('idle')
   const [githubHighlights, setGithubHighlights] = useState<
     Array<{ id: string; title: string; repo?: string; url?: string; createdAt: string }>
   >([])
@@ -69,6 +70,28 @@ export default function Home() {
       } catch {
         if (cancelled) return
         setGithubStatus('error')
+      }
+    }
+    run()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    const run = async () => {
+      setBlogStatus('loading')
+      try {
+        const res = await fetch('/api/blog?limit=3', { cache: 'no-store' })
+        if (!res.ok) throw new Error('blog')
+        const data = await res.json()
+        if (cancelled) return
+        setLatestBlogPosts(data?.posts ?? [])
+        setBlogStatus('ready')
+      } catch {
+        if (cancelled) return
+        setBlogStatus('error')
       }
     }
     run()
@@ -748,7 +771,19 @@ export default function Home() {
               </Link>
             </div>
 
-            {latestBlogPosts.length === 0 ? (
+            {blogStatus === 'loading' ? (
+              <div className="p-8 bg-gray-50 rounded-2xl space-y-3">
+                <p className="text-sm uppercase tracking-wider text-gray-500">Loading</p>
+                <p className="text-lg text-gray-700 leading-relaxed max-w-2xl">Loading latest posts...</p>
+              </div>
+            ) : blogStatus === 'error' ? (
+              <div className="p-8 bg-gray-50 rounded-2xl space-y-3">
+                <p className="text-sm uppercase tracking-wider text-gray-500">Unavailable</p>
+                <p className="text-lg text-gray-700 leading-relaxed max-w-2xl">
+                  Couldn&apos;t load blog posts right now.
+                </p>
+              </div>
+            ) : latestBlogPosts.length === 0 ? (
               <div className="p-8 bg-gray-50 rounded-2xl space-y-3">
                 <p className="text-sm uppercase tracking-wider text-gray-500">Coming soon</p>
                 <p className="text-lg text-gray-700 leading-relaxed max-w-2xl">
@@ -758,23 +793,27 @@ export default function Home() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 {latestBlogPosts.map((post) => (
-                  <article key={post.slug} className="p-6 bg-gray-50 rounded-2xl space-y-4">
-                    <p className="text-sm text-gray-500">
-                      {new Date(post.publishedAt).toLocaleDateString()}
-                    </p>
-                    <h3 className="text-xl md:text-2xl font-bold text-black">{post.title}</h3>
-                    <p className="text-base text-gray-600 leading-relaxed">{post.excerpt}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
-                        <span
-                          key={`${post.slug}-${tag}`}
-                          className="px-3 py-1 rounded-full bg-white text-gray-700 text-sm"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </article>
+                  <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
+                    <article className="p-6 bg-gray-50 rounded-2xl space-y-4 transition-colors group-hover:bg-gray-100">
+                      <p className="text-sm text-gray-500">
+                        {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Draft'}
+                      </p>
+                      <h3 className="text-xl md:text-2xl font-bold text-black underline-offset-4 group-hover:underline">
+                        {post.title}
+                      </h3>
+                      <p className="text-base text-gray-600 leading-relaxed">{post.excerpt}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {post.tags.map((tag) => (
+                          <span
+                            key={`${post.slug}-${tag}`}
+                            className="px-3 py-1 rounded-full bg-white text-gray-700 text-sm"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </article>
+                  </Link>
                 ))}
               </div>
             )}

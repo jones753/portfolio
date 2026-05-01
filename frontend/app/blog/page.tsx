@@ -1,7 +1,9 @@
 import Link from 'next/link'
-import { blogPosts } from '@/lib/blog'
+import { getPublishedPosts } from '@/lib/blog-server'
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const blogPosts = await getPublishedPosts()
+
   return (
     <main className="min-h-screen bg-white px-6 md:px-12 lg:px-20 py-16 md:py-20">
       <div className="max-w-5xl mx-auto space-y-10">
@@ -23,7 +25,9 @@ export default function BlogPage() {
           ) : (
             blogPosts.map((post) => (
               <article key={post.slug} className="p-6 md:p-8 bg-gray-50 rounded-2xl space-y-4">
-                <p className="text-sm text-gray-500">{new Date(post.publishedAt).toLocaleDateString()}</p>
+                <p className="text-sm text-gray-500">
+                  {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Draft'}
+                </p>
                 <h2 className="text-2xl md:text-3xl font-bold text-black">{post.title}</h2>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed">{post.excerpt}</p>
                 <div className="flex flex-wrap gap-2">
@@ -36,6 +40,9 @@ export default function BlogPage() {
                     </span>
                   ))}
                 </div>
+                <Link href={`/blog/${post.slug}`} className="inline-block text-sm font-semibold underline">
+                  Read post
+                </Link>
               </article>
             ))
           )}
