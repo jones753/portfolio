@@ -25,10 +25,19 @@ export type ProfileFeedbackQuote = {
   context?: string
 }
 
+export type ProfileAboutImage = {
+  src: string
+  alt: string
+  caption: string
+}
+
 export type Profile = {
   name: string
   headline: string
   summary: string
+  about: string[]
+  focusAreas: string[]
+  aboutGallery: ProfileAboutImage[]
   email: string
   githubUsername: string
   linkedinUrl?: string
@@ -45,6 +54,35 @@ export const profile: Profile = {
   headline: 'Bachelor of Engineer in Information Technology',
   summary:
     'Bachelor of Engineer in Information Technology with strong knowledge and interest in embedded systems and software development. Skilled in both hardware-level and software-level problem solving, with practical knowledge of tools and languages for both Frontend and Backend. Skilled in using AI-assisted development tools to improve coding efficiency and code quality.',
+  about: [
+    "Hi, I am a 24 years old, Bachelor of Engineer in Information Technology, graduated in autumn 2025 from Oulu University of Applied Sciences. I have good technical skills and enjoy solving problems and learning new technologies. I am currently looking for a job in the field of ICT.",
+    " When I'm not working on a project, you'll almost certainly find me outside doing some kind of sport. My main focus is on endurance sports, as I love the mental and physical challenge of going the distance. Last summer, I participated in a 100km trail run competition. I'm keeping that momentum going this summer as I prepare for an upcoming 66km trail race. My dream is to channel all this training into completing a full Ironman sometime in the future.",
+  ],
+  focusAreas: [
+    'Embedded systems',
+    'Backend & APIs',
+    'Full Stack Development',
+    'Test automation',
+    'Linux',
+  ],
+  aboutGallery: [
+    {
+      src: '/IMG_1789.JPEG',
+      alt: 'First-person view of cross-country skiing on a groomed snowy trail',
+      caption: 'Last winter I picked up cross-country skiing as a new hobby.',
+    },
+    {
+      src: '/IMG_0227.JPEG',
+      alt: 'Alpine mountain landscape with a lake and small waterfall',
+      caption: 'Image from my trip to the Bavarian Alps during my exchange year.',
+    },
+    {
+      src: '/IMG_0795.JPEG',
+      alt: 'Road cyclist in full kit with bike, mirror selfie in an elevator',
+      caption: 'Cycling is a great way to stay fit and enjoy the outdoors.',
+    },
+  ],
+
   email: 'joona.kaik@outlook.com',
   githubUsername: 'jones753',
   linkedinUrl: 'https://www.linkedin.com/in/joona-kaikkonen-8348b6250/',
