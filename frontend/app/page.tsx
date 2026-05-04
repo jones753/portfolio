@@ -397,13 +397,28 @@ export default function Home() {
                   <span className="glitch-text" data-text={hackText}>{hackText}</span>
                 </h1>
                 
-                <div className="space-y-1 md:space-y-2 mb-6 md:mb-12">
+                <div className="space-y-1 md:space-y-2 mb-6 md:mb-8">
                   <p className="text-xl md:text-3xl font-semibold text-foreground tracking-tight">
                     {profile.headline}
                   </p>
                   <p className="text-sm md:text-lg text-muted-foreground max-w-xl">
                     {profile.summary}
                   </p>
+                </div>
+                <div className="space-y-3 max-w-xl">
+                  <p className="text-sm uppercase tracking-wider text-muted-foreground">
+                    Focus
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    {profile.focusAreas.map((t) => (
+                      <span
+                        key={t}
+                        className="px-4 py-2 rounded-full bg-muted text-foreground text-sm md:text-base"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
               </div>
@@ -415,7 +430,7 @@ export default function Home() {
 
       <section 
         id="about" 
-        className="min-h-screen bg-white py-12 md:py-16 lg:py-20 px-6 md:px-12 lg:px-16"
+        className="min-h-[calc(100svh+6rem)] md:min-h-[calc(100svh+10rem)] bg-white py-12 md:py-16 lg:py-20 pb-20 md:pb-28 lg:pb-32 px-6 md:px-12 lg:px-16"
       >
         <div className="max-w-7xl mx-auto">
           <div 
@@ -430,27 +445,37 @@ export default function Home() {
             </h2>
             <div className="grid grid-cols-1 gap-8 lg:gap-12 items-start">
               <div className="space-y-6">
-                <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                  {profile.summary}
-                </p>
-                <div className="space-y-3">
-                  <p className="text-sm uppercase tracking-wider text-gray-500">Focus</p>
-                  <div className="flex flex-wrap gap-3">
-                    {[
-                      'Embedded systems',
-                      'Backend & APIs',
-                      'Frontend UIs',
-                      'Test automation',
-                      'Linux',
-                    ].map((t) => (
-                      <span
-                        key={t}
-                        className="px-4 py-2 rounded-full bg-gray-100 text-gray-800 text-sm md:text-base"
+                {profile.about.map((paragraph, i) => (
+                  <p
+                    key={i}
+                    className="text-base md:text-lg text-gray-700 leading-relaxed"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 pt-4">
+                  {profile.aboutGallery.map((img) => (
+                    <figure
+                      key={img.src}
+                      tabIndex={0}
+                      className="group m-0 flex flex-col outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 rounded-2xl"
+                    >
+                      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl">
+                        <Image
+                          src={img.src}
+                          alt={img.alt}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 100vw, 33vw"
+                        />
+                      </div>
+                      <figcaption
+                        className="mt-2 px-1 text-center text-sm leading-snug text-gray-600 opacity-100 sm:mt-2 sm:flex sm:min-h-[5.25rem] sm:items-start sm:justify-center sm:opacity-0 sm:transition-opacity sm:duration-300 sm:ease-out sm:group-hover:opacity-100 sm:group-focus-within:opacity-100"
                       >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                        {img.caption}
+                      </figcaption>
+                    </figure>
+                  ))}
                 </div>
               </div>
             </div>
