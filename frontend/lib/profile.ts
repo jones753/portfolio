@@ -103,12 +103,16 @@ export const profile: Profile = {
     'C++',
     'JavaScript',
     'Embedded systems',
+    'Full Stack Development',
     'API development',
     'Linux',
     'Robot Framework',
     'Git',
     'Machine learning',
     'AI-assisted development',
+    'Next.js',
+    'NestJS',
+    'Docker',
   ],
   education: [
     {
